@@ -1,5 +1,5 @@
 import type { Plugin, ViteDevServer } from 'vite';
-import { db } from './db';
+import { db } from './db.ts';
 import url from 'url';
 
 export function databaseApiPlugin(): Plugin {
