@@ -1,0 +1,6 @@
+{
+  "name": "Spotify",
+  "description": "A Spotify web player clone playing NCS music tracks, imported from Vishnunair585/Spotify.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

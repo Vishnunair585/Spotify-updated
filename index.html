@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Spotify - Your favourite music is here</title>
+        <meta name="description" content="A Spotify web player clone playing NCS music tracks, imported from Vishnunair585/Spotify." />
+        <meta property="og:title" content="Spotify - Your favourite music is here" />
+        <meta property="og:description" content="A Spotify web player clone playing NCS music tracks, imported from Vishnunair585/Spotify." />
+        <meta property="og:type" content="website" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+        <link rel="stylesheet" href="/style.css">
+    </head>
+    <body>
+        <!-- Top Navigation -->
+        <nav>
+            <ul>
+                <li class="brand" id="brandBtn">
+                    <img src="/logo.png" alt="Spotify">
+                    <span>Spotify</span>
+                </li>
+                <li class="nav-links">
+                    <span class="nav-link active" id="navLibrary">Library</span>
+                    <span class="nav-link" id="navAbout">About</span>
+                </li>
+                <li class="nav-right">
+                    <button class="github-btn" id="repoBtn" title="View GitHub repository connection">
+                        <i class="fa-brands fa-github"></i>
+                        <span>Vishnunair585/Spotify</span>
+                        <span class="branch-tag"><i class="fa-solid fa-code-branch"></i> main</span>
+                    </button>
+
+                    <!-- Auth State in Nav -->
+                    <div class="auth-nav-container" id="authNavGuest">
+                        <button class="btn-nav-signup" id="openSignupBtn">Sign up</button>
+                        <button class="btn-nav-login" id="openLoginBtn">Log in</button>
+                    </div>
+
+                    <div class="user-profile-menu" id="userProfileMenu">
+                        <button class="user-avatar-btn" id="userAvatarBtn">
+                            <span class="user-avatar-circle" id="userInitial">V</span>
+                            <span id="navUsername">User</span>
+                            <i class="fa-solid fa-caret-down" style="font-size: 0.75rem;"></i>
+                        </button>
+                        <div class="user-dropdown" id="userDropdown">
+                            <div class="dropdown-item" id="userEmailItem" style="font-size: 0.8rem; color: #888;">user@email.com</div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-item" id="filterLikedSongs"><i class="fa-solid fa-heart" style="color: #1db954;"></i> Liked Songs</div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-item" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Log out</div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="container">
+            <div class="songList">
+                <div class="playlist-header">
+                    <div class="header-left">
+                        <h1 id="playlistTitle">My Downloaded Songs</h1>
+                        <p>
+                            <span>10 downloaded songs</span> • 
+                            <span class="cache-pill"><i class="fa-solid fa-bolt"></i> Stored Locally for Repeat & Offline</span>
+                        </p>
+                    </div>
+                    <div class="header-controls">
+                        <button class="btn-play-all" id="playAllBtn" title="Play All Tracks">
+                            <i class="fa-solid fa-play"></i> Play
+                        </button>
+                        <button class="btn-action-icon" id="headerShuffleBtn" title="Shuffle Playback">
+                            <i class="fa-solid fa-shuffle"></i>
+                        </button>
+                        <button class="btn-action-icon" id="headerRepeatBtn" title="Toggle Repeat Mode (Off / All / One)">
+                            <i class="fa-solid fa-repeat"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Song List Container -->
+                <div class="songItemContainer" id="songContainer">
+                    <!-- Song items generated dynamically via script for maximum speed and cleanliness -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Player Bar -->
+        <div class="bottom">
+            <!-- Left: Current Song Info -->
+            <div class="player-left">
+                <img src="/covers/1.jpg" alt="Cover" class="player-thumb" id="masterCover">
+                <div class="player-track-info">
+                    <span id="masterSongName">Shape of You</span>
+                    <span id="masterArtistName">Ed Sheeran</span>
+                </div>
+                <button class="btn-master-like" id="masterLikeBtn" title="Like Song">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+                <img src="/playing.gif" alt="Sound wave" id="gif">
+            </div>
+
+            <!-- Center: Controls & Seekbar -->
+            <div class="player-center">
+                <div class="icons">
+                    <button class="control-icon" id="shuffleBtn" title="Shuffle">
+                        <i class="fa-solid fa-shuffle"></i>
+                    </button>
+                    <button class="control-icon" id="previous" title="Previous Track">
+                        <i class="fa-solid fa-step-backward"></i>
+                    </button>
+                    <i class="far fa-play-circle" id="masterPlay" title="Play / Pause"></i>
+                    <button class="control-icon" id="next" title="Next Track">
+                        <i class="fa-solid fa-step-forward"></i>
+                    </button>
+                    <button class="control-icon control-icon-repeat" id="repeatBtn" title="Repeat (Off / All / One)">
+                        <i class="fa-solid fa-repeat"></i>
+                    </button>
+                </div>
+
+                <div class="progress-wrapper">
+                    <span class="time-label" id="currentTime">00:00</span>
+                    <input type="range" name="range" id="myProgressBar" min="0" value="0" max="100">
+                    <span class="time-label" id="totalDuration">03:37</span>
+                </div>
+            </div>
+
+            <!-- Right: Cache Status & Volume -->
+            <div class="player-right">
+                <div class="local-cache-badge" title="All 10 songs cached in browser memory for instant repeat">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Offline Ready</span>
+                </div>
+                <div class="volume-box">
+                    <i class="fa-solid fa-volume-high" id="volumeIcon" title="Mute / Unmute"></i>
+                    <input type="range" id="volumeBar" min="0" max="100" value="85" title="Volume">
+                </div>
+            </div>
+        </div>
+
+        <!-- Auth Modal (Sign Up / Login) -->
+        <div class="modal-overlay" id="authModal">
+            <div class="modal-card">
+                <button class="modal-close-btn" id="closeAuthModal">&times;</button>
+                <div class="auth-header">
+                    <img src="/logo.png" alt="Spotify">
+                    <h2 id="authTitle">Sign up to start listening</h2>
+                    <p id="authSubtitle">Create your free account to access your personal music library</p>
+                </div>
+
+                <div class="auth-error" id="authErrorMsg"></div>
+
+                <form class="auth-form" id="authForm">
+                    <div class="form-group" id="nameGroup">
+                        <label for="authNameInput">What's your name?</label>
+                        <input type="text" id="authNameInput" class="form-input" placeholder="Enter your name" autocomplete="name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="authEmailInput">What's your email?</label>
+                        <input type="email" id="authEmailInput" class="form-input" placeholder="name@domain.com" required autocomplete="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="authPasswordInput" id="authPasswordLabel">Create a password</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="authPasswordInput" class="form-input" placeholder="Create a password" required autocomplete="current-password">
+                            <button type="button" class="btn-toggle-password" id="togglePasswordBtn" title="Show password" aria-label="Toggle password visibility">
+                                <i class="fa-regular fa-eye" id="togglePasswordIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-auth-submit" id="authSubmitBtn">Sign Up</button>
+                    <button type="button" class="btn-guest-continue" id="guestContinueBtn">Continue as Guest</button>
+                </form>
+
+                <div class="auth-switch">
+                    <span id="authSwitchPrompt">Already have an account?</span>
+                    <a id="authSwitchLink">Log in here</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- GitHub Repo Details Modal -->
+        <div class="modal-overlay" id="repoModal">
+            <div class="modal-card">
+                <button class="modal-close-btn" id="closeRepoModal">&times;</button>
+                <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid #2a2a2a;">
+                    <i class="fa-brands fa-github fa-2x" style="color: #1db954;"></i>
+                    <div>
+                        <h2 style="font-size: 1.3rem;">Connected Repository</h2>
+                        <p style="color: #888; font-size: 0.85rem;">Synced with GitHub</p>
+                    </div>
+                </div>
+
+                <div style="background: #202020; padding: 12px 16px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; font-size: 0.9rem;">
+                    <span style="color: #888;">Repository:</span>
+                    <strong>Vishnunair585/Spotify</strong>
+                </div>
+                <div style="background: #202020; padding: 12px 16px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; font-size: 0.9rem;">
+                    <span style="color: #888;">Owner:</span>
+                    <span>Vishnu M (@Vishnunair585)</span>
+                </div>
+                <div style="background: #202020; padding: 12px 16px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; font-size: 0.9rem;">
+                    <span style="color: #888;">Active Branch:</span>
+                    <span><i class="fa-solid fa-code-branch" style="color: #1db954;"></i> main</span>
+                </div>
+                <div style="background: #202020; padding: 12px 16px; border-radius: 8px; margin-bottom: 14px; display: flex; justify-content: space-between; font-size: 0.9rem;">
+                    <span style="color: #888;">Local Storage:</span>
+                    <span style="color: #1db954;"><i class="fa-solid fa-check"></i> 10 Tracks Pre-cached</span>
+                </div>
+
+                <div style="background: #222; padding: 12px; border-radius: 8px; border-left: 3px solid #1db954; font-size: 0.88rem; margin-bottom: 16px;">
+                    <div style="color: #fff; font-weight: 600; margin-bottom: 4px;">Latest Commit on main</div>
+                    <div style="color: #ccc;" id="commitMsg">Fix grammar and punctuation in README</div>
+                    <div style="color: #888; font-size: 0.78rem; margin-top: 4px;" id="commitMeta">SHA: b114171 • by Vishnu M</div>
+                </div>
+
+                <div style="display: flex; gap: 12px;">
+                    <a href="https://github.com/Vishnunair585/Spotify" target="_blank" rel="noopener noreferrer" style="flex: 1; background: #1db954; color: black; padding: 12px; border-radius: 24px; text-decoration: none; font-weight: bold; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <i class="fa-brands fa-github"></i> Open on GitHub
+                    </a>
+                    <button class="btn-guest-continue" id="closeRepoBtn" style="flex: 1; margin-top: 0;">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Modal -->
+        <div class="modal-overlay" id="aboutModal">
+            <div class="modal-card">
+                <button class="modal-close-btn" id="closeAboutModal">&times;</button>
+                <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid #2a2a2a;">
+                    <img src="/logo.png" width="36" alt="Spotify">
+                    <div>
+                        <h2 style="font-size: 1.3rem;">About Spotify Project</h2>
+                        <p style="color: #888; font-size: 0.85rem;">Created by Vishnu M</p>
+                    </div>
+                </div>
+
+                <p style="line-height: 1.6; color: #ddd; margin-bottom: 14px;">
+                    "This is the project I built in order to strengthen my knowledge on the Frontend frameworks like HTML, CSS and JavaScript."
+                </p>
+                <p style="line-height: 1.6; color: #aaa; font-style: italic; margin-bottom: 20px;">
+                    "It's just a project I built out of my curiosity! So, do share your opinions! — Vishnu M"
+                </p>
+
+                <div style="background: #202020; padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; display: flex; justify-content: space-between; font-size: 0.9rem;">
+                    <span style="color: #888;">GitHub Profile:</span>
+                    <a href="https://github.com/Vishnunair585" target="_blank" rel="noopener noreferrer" style="color: #1db954; text-decoration: none;">github.com/Vishnunair585</a>
+                </div>
+
+                <button class="btn-auth-submit" id="closeAboutBtn" style="width: 100%;">Close</button>
+            </div>
+        </div>
+
+        <!-- Toast Feedback -->
+        <div class="toast-notification" id="toastNotification">
+            <i class="fa-solid fa-circle-check" style="color: #1db954;"></i>
+            <span id="toastMsg">Ready</span>
+        </div>
+
+        <script type="module" src="/script.js"></script>
+        <script src="https://kit.fontawesome.com/26504e4a1f.js" crossorigin="anonymous"></script>
+    </body>
+</html>
